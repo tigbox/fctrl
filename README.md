@@ -161,33 +161,24 @@ type MatchResult struct {
 
 # Benchmark
 ```
-➜  fctrl git:(develop) ✗ go test -bench=. -run=none
+fctrl ➤ go test -bench=. -run=none                                             
 goos: darwin
 goarch: amd64
 pkg: github.com/tigbox/fctrl
-cpu: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
-BenchmarkGodisWriteWithDetial-12                    6900            443944 ns/op
-BenchmarkGodisWriteWithoutDetial-12                14802            114990 ns/op
-BenchmarkGodisOnlyReadWithDetial-12                65042             17823 ns/op
-BenchmarkGodisOnlyReadWithoutDetial-12            425139              2857 ns/op
+cpu: Intel(R) Core(TM) i5-5257U CPU @ 2.70GHz
+BenchmarkGodisWriteWithDetial-4         	    4800	   1069519 ns/op
+BenchmarkGodisWriteWithoutDetial-4      	    9307	    157073 ns/op
+BenchmarkGodisOnlyReadWithDetial-4      	   42999	     26982 ns/op
+BenchmarkGodisOnlyReadWithoutDetial-4   	  265546	      3942 ns/op
+BenchmarkRedisWriteWithDetail-4         	     280	   4458068 ns/op
+BenchmarkRedisWriteWithoutDetail-4      	     260	   4416039 ns/op
+BenchmarkRedisReadWithDetail-4          	     570	   2010057 ns/op
+BenchmarkRedisReadWithoutDetail-4       	     614	   2308724 ns/op
 PASS
-ok      github.com/tigbox/fctrl        9.830s
+ok  	github.com/tigbox/fctrl	17.119s
 
-
-➜  fctrl git:(develop) ✗ go test -bench=. -run=none
-goos: darwin
-goarch: amd64
-pkg: github.com/tigbox/fctrl
-cpu: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
-BenchmarkRedisWriteWithDetail-12             720           1732704 ns/op
-BenchmarkRedisWriteWithoutDetail-12          669           1787933 ns/op
-BenchmarkRedisReadWithDetail-12             1576            798690 ns/op
-BenchmarkRedisReadWithoutDetail-12          1437            797730 ns/op
-PASS
-ok      github.com/tigbox/fctrl        5.598s
-
-注意后面的redis是本机的，可能不具备代表意义，但是每个操作需要1.*毫秒还是符合经验值的。
+注意后面的redis是本机local的，可能不具备代表意义，但是每个读写操作需要4.*毫秒在我的2015年的mac上还是符合预期的。
 既然是本机的，就再开一个redis-benchmark跑zadd试试，结果证明还是和刚才的很相近的。
-redis-benchmark -h 127.0.0.1 -p 6379 -t zadd -n 10000 -q
-ZADD: 20876.83 requests per second, p50=2.087 msec
+fctrl ➤ redis-benchmark -h 127.0.0.1 -p 6379 -t zadd -n 10000 -q               
+ZADD: 5104.65 requests per second, p50=7.591 msec
 ```
